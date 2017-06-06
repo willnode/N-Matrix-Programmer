@@ -7,7 +7,7 @@ namespace MatrixProgrammer
 {
 	class Program
 	{
-		static int N = 4;
+		static int N = 3;
 		static bool DiscardBracketAtN1 = true;
 
 		/// <summary>
@@ -118,7 +118,7 @@ namespace MatrixProgrammer
 				for (int y = 0; y < N; y++)
 				{
 					var plus = (x + y) % 2 == 1 ? "-" : " ";
-					WriteDeterminant(N - 1, Y.Where(n => n != x).ToArray(), X.Where(n => n != y).ToArray(), S2, false);
+					WriteDeterminant(N - 1, Y.Where(n => n != y).ToArray(), X.Where(n => n != x).ToArray(), S2, false);
 					S.AppendLine(string.Format(FormatMemberInvers, STR2(x, y), plus, S2));
 					S2.Clear();
 				}
