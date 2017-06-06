@@ -3,7 +3,7 @@ var det = m.m00 * ( m.m11 * m.m22 - m.m12 * m.m21 )
 	+ m.m02 * ( m.m10 * m.m21 - m.m11 * m.m20 );
 det = 1 / det;
 
-return new Matrix4x4() {
+return new Matrix3x3() {
    m00 = det *   ( m.m11 * m.m22 - m.m12 * m.m21 );
    m01 = det * - ( m.m01 * m.m22 - m.m02 * m.m21 );
    m02 = det *   ( m.m01 * m.m12 - m.m02 * m.m11 );
