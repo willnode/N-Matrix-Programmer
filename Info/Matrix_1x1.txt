@@ -1,0 +1,6 @@
+var det = m.m00;
+det = 1 / det;
+
+return new Matrix4x4() {
+   m00 = det *   ();
+};
