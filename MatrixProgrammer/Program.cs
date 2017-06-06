@@ -31,7 +31,7 @@ namespace MatrixProgrammer
 		//
         const string FormatPostDeterm = "var det ={0};\ndet = 1 / det;\n";
 		const string FormatPostInvers = "return new Matrix{1}x{1}() {{\n{0}}};";
-		const string FormatMemberInvers = "   {0}= det * {1} ({2});";
+		const string FormatMemberInvers = "   {0}= det * {1} ({2}),";
 
 		static public void Main(string[] args)
 		{

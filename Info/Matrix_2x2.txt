@@ -3,8 +3,8 @@ var det = m.m00 * m.m11
 det = 1 / det;
 
 return new Matrix2x2() {
-   m00 = det *   ( m.m11 );
-   m01 = det * - ( m.m10 );
-   m10 = det * - ( m.m01 );
-   m11 = det *   ( m.m00 );
+   m00 = det *   ( m.m11 ),
+   m01 = det * - ( m.m10 ),
+   m10 = det * - ( m.m01 ),
+   m11 = det *   ( m.m00 ),
 };
