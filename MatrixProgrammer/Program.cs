@@ -10,7 +10,7 @@ namespace MatrixProgrammer
         /// <summary>
         /// Number of matrix rows X colums
         /// </summary>
-		static int N = 2;
+		static int N = 3;
         /// <summary>
         /// Optimization Level. Adjusted automatically
         /// </summary>
@@ -227,50 +227,18 @@ namespace MatrixProgrammer
             var X = Enumerable.Range(0, N).ToArray();
             var Y = Enumerable.Range(0, N).ToArray();
 
-            for (int x = 0; x < N; x++)
+            for (int y = 0; y < N; y++)
             {
-                for (int y = 0; y < N; y++)
+                for (int x = 0; x < N; x++) 
                 {
                     var plus = (x + y) % 2 == 1 ? "-" : " ";
+                    // X and y flipped here for traverse matrix
                     WriteDeterminant(N - 1, Y.Where(n => n != y).ToArray(), X.Where(n => n != x).ToArray(), S2, false);
-                    S.AppendLine(string.Format(FormatMemberInvers, STR2(x, y), plus, S2));
+                    S.AppendLine(string.Format(FormatMemberInvers, STR2(y, x), plus, S2));
                     S2.Clear();
                 }
             }
         }
 
-        public class IntHashes
-        {
-            public int[] array;
-
-            public IntHashes (int[] Array)
-            {
-                array = Array;
-            }
-
-            public override int GetHashCode()
-            {
-            //    return string.Join("", array).GetHashCode();
-               var v = 0;
-                for (int i = 0; i < array.Length; i++)
-                {
-                    v = CombineHashCodes(v, array[i]);
-                }
-                return v;
-                
-            }
-
-            internal static int CombineHashCodes(int h1, int h2)
-            {
-                return (((h1 << 5) + h1) ^ h2);
-            }
-
-            public override bool Equals(object obj)
-            {
-                if (!(obj is IntHashes))
-                    return false;
-                return GetHashCode() == obj.GetHashCode();
-            }
-        }
     }
 }
