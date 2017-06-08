@@ -1,6 +1,6 @@
 var det = m.m00 * ( m.m11 * m.m22 - m.m12 * m.m21 ) 
 	- m.m01 * ( m.m10 * m.m22 - m.m12 * m.m20 ) 
-	+ m.m02 * ( m.m10 * m.m21 - m.m11 * m.m20 );
+	+ m.m02 * ( m.m10 * m.m21 - m.m11 * m.m20 ) ;
 det = 1 / det;
 
 return new Matrix3x3() {

@@ -1,5 +1,5 @@
 var det = m.m00 * m.m11 
-	- m.m01 * m.m10;
+	- m.m01 * m.m10 ;
 det = 1 / det;
 
 return new Matrix2x2() {

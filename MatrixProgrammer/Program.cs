@@ -7,12 +7,18 @@ namespace MatrixProgrammer
 {
 	class Program
 	{
-		static int N = 3;
-		static bool DiscardBracketAtN1 = true;
-
-		/// <summary>
-		/// The name for members to be processed
-		/// </summary>
+        /// <summary>
+        /// Number of matrix rows X colums
+        /// </summary>
+		static int N = 2;
+        /// <summary>
+        /// Optimization Level. Adjusted automatically
+        /// </summary>
+        static int O = 1;
+        
+        /// <summary>
+        /// The name for members to be processed
+        /// </summary>
         static string STR(int row, int column)
 		{
 			return string.Format(" m.m{0}{1} ", row, column);
@@ -26,21 +32,50 @@ namespace MatrixProgrammer
 			return string.Format("m{0}{1} ", row, column);
 		}
 
-		//
-		// String formats which you're free to change
-		//
+        static string STRO(Tuple<int, int> t)
+        {
+            return string.Format(" P{0}{1} ", t.Item1, t.Item2);
+        }
+
+        static string STRO(Tuple<int, int, int> t)
+        {
+            return string.Format(" Q{0}{1}{2} ", t.Item1, t.Item2, t.Item3);
+        }
+
+        static StringBuilder STROB = new StringBuilder();
+        static string STRO(int[] t, int[] u)
+        {
+            STROB.Clear();
+            STROB.Append(((char)('?' + t.Length)).ToString());
+            STROB.Append(string.Join("", t));
+            STROB.Append(string.Join("", u));
+            return " " + STROB.ToString() + " ";
+        }
+
+        //
+        // String formats which you're free to change
+        //
         const string FormatPostDeterm = "var det ={0};\ndet = 1 / det;\n";
 		const string FormatPostInvers = "return new Matrix{1}x{1}() {{\n{0}}};";
 		const string FormatMemberInvers = "   {0}= det * {1} ({2}),";
 
-		static public void Main(string[] args)
+        const string FormatMemberCached = "var{0}={1};";
+
+        const string FormatCachedN2 = "{0}*{1}-{2}*{3}";
+        //const string FormatCachedN3 = "var{0}={1}*{2}-{3}*{4}+{5}*{6};";
+        //const string FormatCachedN4 = "var{0}={1}*{2}-{3}*{4}+{5}*{6}-{7}*{8};";
+
+        static public void Main(string[] args)
 		{
 			CheckArguments(args);
+
 			var S = new StringBuilder();
 			var S2 = new StringBuilder();
 			WriteDeterminant(N, S);
-			S.Length -= 1;
 			WriteInverse(N, S2);
+
+            if (O >= 2)
+                WriteCachedCodes();
 			Console.WriteLine(string.Format(FormatPostDeterm, S, N));
 			Console.WriteLine(string.Format(FormatPostInvers, S2, N));
 		}
@@ -56,14 +91,21 @@ namespace MatrixProgrammer
 				}
 			}
 
-			if (args.Length > 1)
+            {
+                if (N >= 4)
+                    O = N - 2;
+                else
+                    O = 1;
+            }
+
+            if (args.Length > 1)
 			{
-				bool parsed;
-				if (bool.TryParse(args[1], out parsed))
-				{
-					DiscardBracketAtN1 = parsed;
-				}
-			}
+                int parsed;
+                if (int.TryParse(args[1], out parsed))
+                {
+                    O = parsed;
+                }
+            }
 		}
 
 		static void WriteDeterminant (int N, StringBuilder S)
@@ -75,7 +117,13 @@ namespace MatrixProgrammer
 
 		static void WriteDeterminant (int N, int[] X, int[] Y, StringBuilder S, bool NS)
 		{
-			bool plus = true;
+            if (O >= N && O >= 2)
+            {
+                S.Append(WriteOptimizedNDet(N, X, Y));
+                return;
+            }
+
+            bool plus = true;
 			for (int i = 0; i < N; i++)
 			{
 				// Sign (and necessary stylings)
@@ -95,34 +143,134 @@ namespace MatrixProgrammer
 				// Take recursive call at minor matrix
                 if (N > 1)
 				{
-					if (N == 2 && DiscardBracketAtN1)
-						S.Append("*");
-					else
+					if (ShouldAddBracket(N))
 						S.Append("* (");
+					else
+						S.Append("*");
 					WriteDeterminant(N - 1, X.Where(n => n != x).ToArray(), Y.Where(n => n != y).ToArray(), S, false);
-					if (N != 2 || !DiscardBracketAtN1)
+					if (ShouldAddBracket(N))
 						S.Append(") ");
 				}
 			}
 		}
 
-		static void WriteInverse (int N, StringBuilder S)
-		{
-			var S2 = new StringBuilder();
+        static bool ShouldAddBracket (int N)
+        {
+             return N > O + 1;
+        }
 
-			var X = Enumerable.Range(0, N).ToArray();
-			var Y = Enumerable.Range(0, N).ToArray();
+       
+        static string WriteOptimizedNDet(int N, int[] X, int[] Y)
+        {
+            var S = new StringBuilder();
+            var C = GetCacheSets(N);
+            var M = STRO(X, Y);
+            if (!C.ContainsKey(M))
+            {
+                if (N > 2)
+                {
+                    bool plus = true;
+                    for (int i = 0; i < N; i++)
+                    {
+                        // Sign (and necessary stylings)
+                        if (i > 0)
+                            S.Append(plus ? "+" : "-");
 
-			for (int x = 0; x < N; x++)
-			{
-				for (int y = 0; y < N; y++)
-				{
-					var plus = (x + y) % 2 == 1 ? "-" : " ";
-					WriteDeterminant(N - 1, Y.Where(n => n != y).ToArray(), X.Where(n => n != x).ToArray(), S2, false);
-					S.AppendLine(string.Format(FormatMemberInvers, STR2(x, y), plus, S2));
-					S2.Clear();
-				}
-			}
-		}
-	}
+                        // Write this member
+                        int x = X[i];
+                        int y = Y[0];
+                        S.Append(STR(y, x));
+                        plus = !plus;
+
+                        // Take recursive call at minor matrix
+                        S.Append("*");
+                        S.Append(WriteOptimizedNDet(N - 1, X.Where(n => n != x).ToArray(), Y.Where(n => n != y).ToArray()));
+                    }
+                } else
+                    S.AppendFormat(FormatCachedN2, STR(Y[0], X[0]), STR(Y[1], X[1]), STR(Y[0], X[1]), STR(Y[1], X[0]));
+
+                C[M] = string.Format(FormatMemberCached, M, S);
+                S.Clear();
+            }
+            return M;
+        }
+
+      
+
+        static void WriteCachedCodes ()
+        {
+            foreach (var I in CachedNSets)
+            {
+                foreach (var J in I)
+                {
+                    Console.WriteLine(J.Value);
+                }
+                Console.WriteLine();
+            }
+        }
+
+        static List<Dictionary<string, string>> CachedNSets = new List<Dictionary<string, string>>();
+
+        static Dictionary<string, string> GetCacheSets (int N)
+        {
+            while (CachedNSets.Count < N + 1)
+            {
+                CachedNSets.Add(new Dictionary<string, string>());
+            }
+            return CachedNSets[N];
+        }
+
+        static void WriteInverse(int N, StringBuilder S)
+        {
+            var S2 = new StringBuilder();
+
+            var X = Enumerable.Range(0, N).ToArray();
+            var Y = Enumerable.Range(0, N).ToArray();
+
+            for (int x = 0; x < N; x++)
+            {
+                for (int y = 0; y < N; y++)
+                {
+                    var plus = (x + y) % 2 == 1 ? "-" : " ";
+                    WriteDeterminant(N - 1, Y.Where(n => n != y).ToArray(), X.Where(n => n != x).ToArray(), S2, false);
+                    S.AppendLine(string.Format(FormatMemberInvers, STR2(x, y), plus, S2));
+                    S2.Clear();
+                }
+            }
+        }
+
+        public class IntHashes
+        {
+            public int[] array;
+
+            public IntHashes (int[] Array)
+            {
+                array = Array;
+            }
+
+            public override int GetHashCode()
+            {
+            //    return string.Join("", array).GetHashCode();
+               var v = 0;
+                for (int i = 0; i < array.Length; i++)
+                {
+                    v = CombineHashCodes(v, array[i]);
+                }
+                return v;
+                
+            }
+
+            internal static int CombineHashCodes(int h1, int h2)
+            {
+                return (((h1 << 5) + h1) ^ h2);
+            }
+
+            public override bool Equals(object obj)
+            {
+                if (!(obj is IntHashes))
+                    return false;
+                return GetHashCode() == obj.GetHashCode();
+            }
+        }
+    }
 }
