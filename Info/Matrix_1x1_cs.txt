@@ -1,0 +1,7 @@
+// C# code for compute invertion 1 x 1 matrix by willnode and ThomasCZ
+var det = m.m00;
+det = 1 / det;
+
+Matrix1x1 inv = new Matrix1x1() {
+   m00 = det * (),
+};

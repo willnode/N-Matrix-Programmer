@@ -10,102 +10,92 @@ namespace MatrixProgrammer
         /// <summary>
         /// Number of matrix rows X colums
         /// </summary>
-		static int N = 3;
+		static int MatrixSize = 4;
         /// <summary>
         /// Optimization Level. Adjusted automatically
         /// </summary>
         static int O = 1;
-        
-        /// <summary>
-        /// The name for members to be processed
-        /// </summary>
-        static string STR(int row, int column)
-		{
-			return string.Format(" m.m{0}{1} ", row, column);
-		}
-
-		/// <summary>
-		/// The name for members that will receive the final data
-		/// </summary>
-        static string STR2(int row, int column)
-		{
-			return string.Format("m{0}{1} ", row, column);
-		}
-
-        static string STRO(Tuple<int, int> t)
-        {
-            return string.Format(" P{0}{1} ", t.Item1, t.Item2);
-        }
-
-        static string STRO(Tuple<int, int, int> t)
-        {
-            return string.Format(" Q{0}{1}{2} ", t.Item1, t.Item2, t.Item3);
-        }
 
         static StringBuilder STROB = new StringBuilder();
         static string STRO(int[] t, int[] u)
         {
             STROB.Clear();
-            STROB.Append(((char)('?' + t.Length)).ToString());
+            STROB.Append(((char)((formatter.IsCacheMemberUppercase() ? '?' : '_') + t.Length)).ToString());
             STROB.Append(string.Join("", t));
             STROB.Append(string.Join("", u));
-            return " " + STROB.ToString() + " ";
+            return STROB.ToString();
         }
 
         //
         // String formats which you're free to change
         //
-        const string FormatPostDeterm = "var det ={0};\ndet = 1 / det;\n";
-		const string FormatPostInvers = "return new Matrix{1}x{1}() {{\n{0}}};";
-		const string FormatMemberInvers = "   {0}= det * {1} ({2}),";
-
-        const string FormatMemberCached = "var{0}={1};";
-
-        const string FormatCachedN2 = "{0}*{1}-{2}*{3}";
-        //const string FormatCachedN3 = "var{0}={1}*{2}-{3}*{4}+{5}*{6};";
-        //const string FormatCachedN4 = "var{0}={1}*{2}-{3}*{4}+{5}*{6}-{7}*{8};";
+        static OutputFormatter formatter;
 
         static public void Main(string[] args)
 		{
 			CheckArguments(args);
 
-			var S = new StringBuilder();
+            var S = new StringBuilder();
 			var S2 = new StringBuilder();
-			WriteDeterminant(N, S);
-			WriteInverse(N, S2);
+			WriteDeterminant(MatrixSize, S);
+			WriteInverse(MatrixSize, S2);
 
             if (O >= 2)
                 WriteCachedCodes();
-			Console.WriteLine(string.Format(FormatPostDeterm, S, N));
-			Console.WriteLine(string.Format(FormatPostInvers, S2, N));
-		}
+			Console.WriteLine(formatter.Determinant(S.ToString()));
+			Console.WriteLine(formatter.Result(MatrixSize, S2.ToString()));
+        }
 
 		static void CheckArguments (string[] args)
 		{
-			if (args.Length > 0)
-			{
-				int parsed;
-				if (int.TryParse(args[0], out parsed))
-				{
-					N = parsed;
-				}
-			}
-
+            if (args.Length == 4)
             {
-                if (N >= 4)
-                    O = N - 2;
-                else
-                    O = 1;
-            }
-
-            if (args.Length > 1)
-			{
-                int parsed;
-                if (int.TryParse(args[1], out parsed))
+                for (int i = 0; i < args.Length; i += 2)
                 {
-                    O = parsed;
+                    switch (args[i])
+                    {
+                        case "-n":
+                          
+                            if (!int.TryParse(args[i + 1], out MatrixSize))
+                            {
+                                Console.WriteLine("Wrong matrix size");
+                                Environment.Exit(0);
+                            }
+                            break;
+                        case "-f":
+                            switch (args[i + 1])
+                            {
+                                case "cpp":
+                                    formatter = new CPPOutputFormatter();
+                                    break;
+                                case "cs":
+                                    formatter = new CSharpOutputFormatter();
+                                    break;
+                                default:
+                                    Console.WriteLine("Invalid format");
+                                    Environment.Exit(0);
+                                    break;
+                            }
+                            break;
+                    }
                 }
             }
+            else
+            {
+                Console.WriteLine("Following arguments can be used:");
+                Console.WriteLine("\t-n [int] ... size of the matrix");
+                Console.WriteLine("\t-f [cpp, cs] ... code formatting");
+                Console.WriteLine("\t\t cpp ... C++ code style");
+                Console.WriteLine("\t\t cs ... C# code style");
+                Environment.Exit(0);
+            }
+
+            Console.WriteLine("// " + (formatter is CPPOutputFormatter ? "C++" : "C#")+ " code for compute invertion " + MatrixSize + " x " + MatrixSize + " matrix by willnode and ThomasCZ");
+
+            if (MatrixSize > 3)
+                O = MatrixSize - 2;
+            else
+                O = 1;
 		}
 
 		static void WriteDeterminant (int N, StringBuilder S)
@@ -131,25 +121,25 @@ namespace MatrixProgrammer
 				{
 					if (NS)
 						S.Append("\n\t");
-					S.Append(plus ? "+" : "-");
+					S.Append(plus ? " + " : " - ");
 				}
 
 				// Write this member
                 int x = X[i];
 				int y = Y[0];
-				S.Append(STR(y, x));
+				S.Append(formatter.SourceMatrixElement(MatrixSize, y, x));
 				plus = !plus;
 
 				// Take recursive call at minor matrix
                 if (N > 1)
 				{
 					if (ShouldAddBracket(N))
-						S.Append("* (");
+						S.Append(" * (");
 					else
-						S.Append("*");
+						S.Append(" * ");
 					WriteDeterminant(N - 1, X.Where(n => n != x).ToArray(), Y.Where(n => n != y).ToArray(), S, false);
 					if (ShouldAddBracket(N))
-						S.Append(") ");
+						S.Append(")");
 				}
 			}
 		}
@@ -174,22 +164,22 @@ namespace MatrixProgrammer
                     {
                         // Sign (and necessary stylings)
                         if (i > 0)
-                            S.Append(plus ? "+" : "-");
+                            S.Append(plus ? " + " : " - ");
 
                         // Write this member
                         int x = X[i];
                         int y = Y[0];
-                        S.Append(STR(y, x));
+                        S.Append(formatter.SourceMatrixElement(MatrixSize, y, x));
                         plus = !plus;
 
                         // Take recursive call at minor matrix
-                        S.Append("*");
+                        S.Append(" * ");
                         S.Append(WriteOptimizedNDet(N - 1, X.Where(n => n != x).ToArray(), Y.Where(n => n != y).ToArray()));
                     }
                 } else
-                    S.AppendFormat(FormatCachedN2, STR(Y[0], X[0]), STR(Y[1], X[1]), STR(Y[0], X[1]), STR(Y[1], X[0]));
+                    S.AppendFormat(formatter.CacheContent(formatter.SourceMatrixElement(MatrixSize, Y[0], X[0]), formatter.SourceMatrixElement(MatrixSize, Y[1], X[1]), formatter.SourceMatrixElement(MatrixSize, Y[0], X[1]), formatter.SourceMatrixElement(MatrixSize, Y[1], X[0])));
 
-                C[M] = string.Format(FormatMemberCached, M, S);
+                C[M] = formatter.CacheMember(M, S.ToString());
                 S.Clear();
             }
             return M;
@@ -231,14 +221,13 @@ namespace MatrixProgrammer
             {
                 for (int x = 0; x < N; x++) 
                 {
-                    var plus = (x + y) % 2 == 1 ? "-" : " ";
+                    var plus = (x + y) % 2 == 1 ? "-" : "";
                     // X and y flipped here for traverse matrix
                     WriteDeterminant(N - 1, Y.Where(n => n != y).ToArray(), X.Where(n => n != x).ToArray(), S2, false);
-                    S.AppendLine(string.Format(FormatMemberInvers, STR2(y, x), plus, S2));
+                    S.AppendLine(formatter.InverseMember(formatter.MatrixElement(MatrixSize, y, x), plus, S2.ToString()));
                     S2.Clear();
                 }
             }
         }
-
     }
 }

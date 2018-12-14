@@ -1,0 +1,46 @@
+// C# code for compute invertion 4 x 4 matrix by willnode and ThomasCZ
+
+
+var A2323 = m.m22 * m.m33 - m.m23 * m.m32;
+var A1323 = m.m21 * m.m33 - m.m23 * m.m31;
+var A1223 = m.m21 * m.m32 - m.m22 * m.m31;
+var A0323 = m.m20 * m.m33 - m.m23 * m.m30;
+var A0223 = m.m20 * m.m32 - m.m22 * m.m30;
+var A0123 = m.m20 * m.m31 - m.m21 * m.m30;
+var A2313 = m.m12 * m.m33 - m.m13 * m.m32;
+var A1313 = m.m11 * m.m33 - m.m13 * m.m31;
+var A1213 = m.m11 * m.m32 - m.m12 * m.m31;
+var A2312 = m.m12 * m.m23 - m.m13 * m.m22;
+var A1312 = m.m11 * m.m23 - m.m13 * m.m21;
+var A1212 = m.m11 * m.m22 - m.m12 * m.m21;
+var A0313 = m.m10 * m.m33 - m.m13 * m.m30;
+var A0213 = m.m10 * m.m32 - m.m12 * m.m30;
+var A0312 = m.m10 * m.m23 - m.m13 * m.m20;
+var A0212 = m.m10 * m.m22 - m.m12 * m.m20;
+var A0113 = m.m10 * m.m31 - m.m11 * m.m30;
+var A0112 = m.m10 * m.m21 - m.m11 * m.m20;
+
+var det = m.m00 * (m.m11 * A2323 - m.m12 * A1323 + m.m13 * A1223)
+	 - m.m01 * (m.m10 * A2323 - m.m12 * A0323 + m.m13 * A0223)
+	 + m.m02 * (m.m10 * A1323 - m.m11 * A0323 + m.m13 * A0123)
+	 - m.m03 * (m.m10 * A1223 - m.m11 * A0223 + m.m12 * A0123);
+det = 1 / det;
+
+Matrix4x4 inv = new Matrix4x4() {
+   m00 = det * (m.m11 * A2323 - m.m12 * A1323 + m.m13 * A1223),
+   m01 = det * -(m.m01 * A2323 - m.m02 * A1323 + m.m03 * A1223),
+   m02 = det * (m.m01 * A2313 - m.m02 * A1313 + m.m03 * A1213),
+   m03 = det * -(m.m01 * A2312 - m.m02 * A1312 + m.m03 * A1212),
+   m10 = det * -(m.m10 * A2323 - m.m12 * A0323 + m.m13 * A0223),
+   m11 = det * (m.m00 * A2323 - m.m02 * A0323 + m.m03 * A0223),
+   m12 = det * -(m.m00 * A2313 - m.m02 * A0313 + m.m03 * A0213),
+   m13 = det * (m.m00 * A2312 - m.m02 * A0312 + m.m03 * A0212),
+   m20 = det * (m.m10 * A1323 - m.m11 * A0323 + m.m13 * A0123),
+   m21 = det * -(m.m00 * A1323 - m.m01 * A0323 + m.m03 * A0123),
+   m22 = det * (m.m00 * A1313 - m.m01 * A0313 + m.m03 * A0113),
+   m23 = det * -(m.m00 * A1312 - m.m01 * A0312 + m.m03 * A0112),
+   m30 = det * -(m.m10 * A1223 - m.m11 * A0223 + m.m12 * A0123),
+   m31 = det * (m.m00 * A1223 - m.m01 * A0223 + m.m02 * A0123),
+   m32 = det * -(m.m00 * A1213 - m.m01 * A0213 + m.m02 * A0113),
+   m33 = det * (m.m00 * A1212 - m.m01 * A0212 + m.m02 * A0112),
+};

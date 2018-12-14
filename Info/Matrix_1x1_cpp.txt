@@ -1,0 +1,7 @@
+// C++ code for compute invertion 1 x 1 matrix by willnode and ThomasCZ
+float det = mat.mat[0];
+det = 1 / det;
+
+Mat1 inv = Mat1();
+inv.mat[0] = det * ();
+

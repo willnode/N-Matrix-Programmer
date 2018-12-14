@@ -1,0 +1,17 @@
+// C++ code for compute invertion 3 x 3 matrix by willnode and ThomasCZ
+float det = mat.mat[0] * (mat.mat[4] * mat.mat[8] - mat.mat[5] * mat.mat[7])
+	 - mat.mat[1] * (mat.mat[3] * mat.mat[8] - mat.mat[5] * mat.mat[6])
+	 + mat.mat[2] * (mat.mat[3] * mat.mat[7] - mat.mat[4] * mat.mat[6]);
+det = 1 / det;
+
+Mat3 inv = Mat3();
+inv.mat[0] = det * (mat.mat[4] * mat.mat[8] - mat.mat[5] * mat.mat[7]);
+inv.mat[1] = det * -(mat.mat[1] * mat.mat[8] - mat.mat[2] * mat.mat[7]);
+inv.mat[2] = det * (mat.mat[1] * mat.mat[5] - mat.mat[2] * mat.mat[4]);
+inv.mat[3] = det * -(mat.mat[3] * mat.mat[8] - mat.mat[5] * mat.mat[6]);
+inv.mat[4] = det * (mat.mat[0] * mat.mat[8] - mat.mat[2] * mat.mat[6]);
+inv.mat[5] = det * -(mat.mat[0] * mat.mat[5] - mat.mat[2] * mat.mat[3]);
+inv.mat[6] = det * (mat.mat[3] * mat.mat[7] - mat.mat[4] * mat.mat[6]);
+inv.mat[7] = det * -(mat.mat[0] * mat.mat[7] - mat.mat[1] * mat.mat[6]);
+inv.mat[8] = det * (mat.mat[0] * mat.mat[4] - mat.mat[1] * mat.mat[3]);
+

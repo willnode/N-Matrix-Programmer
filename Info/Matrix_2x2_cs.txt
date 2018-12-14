@@ -1,0 +1,11 @@
+// C# code for compute invertion 2 x 2 matrix by willnode and ThomasCZ
+var det = m.m00 * m.m11
+	 - m.m01 * m.m10;
+det = 1 / det;
+
+Matrix2x2 inv = new Matrix2x2() {
+   m00 = det * (m.m11),
+   m01 = det * -(m.m01),
+   m10 = det * -(m.m10),
+   m11 = det * (m.m00),
+};

@@ -1,0 +1,109 @@
+// C++ code for compute invertion 5 x 5 matrix by willnode and ThomasCZ
+
+
+float a3434 = mat.mat[18] * mat.mat[24] - mat.mat[19] * mat.mat[23];
+float a2434 = mat.mat[17] * mat.mat[24] - mat.mat[19] * mat.mat[22];
+float a2334 = mat.mat[17] * mat.mat[23] - mat.mat[18] * mat.mat[22];
+float a1434 = mat.mat[16] * mat.mat[24] - mat.mat[19] * mat.mat[21];
+float a1334 = mat.mat[16] * mat.mat[23] - mat.mat[18] * mat.mat[21];
+float a1234 = mat.mat[16] * mat.mat[22] - mat.mat[17] * mat.mat[21];
+float a0434 = mat.mat[15] * mat.mat[24] - mat.mat[19] * mat.mat[20];
+float a0334 = mat.mat[15] * mat.mat[23] - mat.mat[18] * mat.mat[20];
+float a0234 = mat.mat[15] * mat.mat[22] - mat.mat[17] * mat.mat[20];
+float a0134 = mat.mat[15] * mat.mat[21] - mat.mat[16] * mat.mat[20];
+float a3424 = mat.mat[13] * mat.mat[24] - mat.mat[14] * mat.mat[23];
+float a2424 = mat.mat[12] * mat.mat[24] - mat.mat[14] * mat.mat[22];
+float a2324 = mat.mat[12] * mat.mat[23] - mat.mat[13] * mat.mat[22];
+float a1424 = mat.mat[11] * mat.mat[24] - mat.mat[14] * mat.mat[21];
+float a1324 = mat.mat[11] * mat.mat[23] - mat.mat[13] * mat.mat[21];
+float a1224 = mat.mat[11] * mat.mat[22] - mat.mat[12] * mat.mat[21];
+float a3423 = mat.mat[13] * mat.mat[19] - mat.mat[14] * mat.mat[18];
+float a2423 = mat.mat[12] * mat.mat[19] - mat.mat[14] * mat.mat[17];
+float a2323 = mat.mat[12] * mat.mat[18] - mat.mat[13] * mat.mat[17];
+float a1423 = mat.mat[11] * mat.mat[19] - mat.mat[14] * mat.mat[16];
+float a1323 = mat.mat[11] * mat.mat[18] - mat.mat[13] * mat.mat[16];
+float a1223 = mat.mat[11] * mat.mat[17] - mat.mat[12] * mat.mat[16];
+float a0424 = mat.mat[10] * mat.mat[24] - mat.mat[14] * mat.mat[20];
+float a0324 = mat.mat[10] * mat.mat[23] - mat.mat[13] * mat.mat[20];
+float a0224 = mat.mat[10] * mat.mat[22] - mat.mat[12] * mat.mat[20];
+float a0423 = mat.mat[10] * mat.mat[19] - mat.mat[14] * mat.mat[15];
+float a0323 = mat.mat[10] * mat.mat[18] - mat.mat[13] * mat.mat[15];
+float a0223 = mat.mat[10] * mat.mat[17] - mat.mat[12] * mat.mat[15];
+float a0124 = mat.mat[10] * mat.mat[21] - mat.mat[11] * mat.mat[20];
+float a0123 = mat.mat[10] * mat.mat[16] - mat.mat[11] * mat.mat[15];
+
+float b234234 = mat.mat[12] * a3434 - mat.mat[13] * a2434 + mat.mat[14] * a2334;
+float b134234 = mat.mat[11] * a3434 - mat.mat[13] * a1434 + mat.mat[14] * a1334;
+float b124234 = mat.mat[11] * a2434 - mat.mat[12] * a1434 + mat.mat[14] * a1234;
+float b123234 = mat.mat[11] * a2334 - mat.mat[12] * a1334 + mat.mat[13] * a1234;
+float b034234 = mat.mat[10] * a3434 - mat.mat[13] * a0434 + mat.mat[14] * a0334;
+float b024234 = mat.mat[10] * a2434 - mat.mat[12] * a0434 + mat.mat[14] * a0234;
+float b023234 = mat.mat[10] * a2334 - mat.mat[12] * a0334 + mat.mat[13] * a0234;
+float b014234 = mat.mat[10] * a1434 - mat.mat[11] * a0434 + mat.mat[14] * a0134;
+float b013234 = mat.mat[10] * a1334 - mat.mat[11] * a0334 + mat.mat[13] * a0134;
+float b012234 = mat.mat[10] * a1234 - mat.mat[11] * a0234 + mat.mat[12] * a0134;
+float b234134 = mat.mat[7] * a3434 - mat.mat[8] * a2434 + mat.mat[9] * a2334;
+float b134134 = mat.mat[6] * a3434 - mat.mat[8] * a1434 + mat.mat[9] * a1334;
+float b124134 = mat.mat[6] * a2434 - mat.mat[7] * a1434 + mat.mat[9] * a1234;
+float b123134 = mat.mat[6] * a2334 - mat.mat[7] * a1334 + mat.mat[8] * a1234;
+float b234124 = mat.mat[7] * a3424 - mat.mat[8] * a2424 + mat.mat[9] * a2324;
+float b134124 = mat.mat[6] * a3424 - mat.mat[8] * a1424 + mat.mat[9] * a1324;
+float b124124 = mat.mat[6] * a2424 - mat.mat[7] * a1424 + mat.mat[9] * a1224;
+float b123124 = mat.mat[6] * a2324 - mat.mat[7] * a1324 + mat.mat[8] * a1224;
+float b234123 = mat.mat[7] * a3423 - mat.mat[8] * a2423 + mat.mat[9] * a2323;
+float b134123 = mat.mat[6] * a3423 - mat.mat[8] * a1423 + mat.mat[9] * a1323;
+float b124123 = mat.mat[6] * a2423 - mat.mat[7] * a1423 + mat.mat[9] * a1223;
+float b123123 = mat.mat[6] * a2323 - mat.mat[7] * a1323 + mat.mat[8] * a1223;
+float b034134 = mat.mat[5] * a3434 - mat.mat[8] * a0434 + mat.mat[9] * a0334;
+float b024134 = mat.mat[5] * a2434 - mat.mat[7] * a0434 + mat.mat[9] * a0234;
+float b023134 = mat.mat[5] * a2334 - mat.mat[7] * a0334 + mat.mat[8] * a0234;
+float b034124 = mat.mat[5] * a3424 - mat.mat[8] * a0424 + mat.mat[9] * a0324;
+float b024124 = mat.mat[5] * a2424 - mat.mat[7] * a0424 + mat.mat[9] * a0224;
+float b023124 = mat.mat[5] * a2324 - mat.mat[7] * a0324 + mat.mat[8] * a0224;
+float b034123 = mat.mat[5] * a3423 - mat.mat[8] * a0423 + mat.mat[9] * a0323;
+float b024123 = mat.mat[5] * a2423 - mat.mat[7] * a0423 + mat.mat[9] * a0223;
+float b023123 = mat.mat[5] * a2323 - mat.mat[7] * a0323 + mat.mat[8] * a0223;
+float b014134 = mat.mat[5] * a1434 - mat.mat[6] * a0434 + mat.mat[9] * a0134;
+float b013134 = mat.mat[5] * a1334 - mat.mat[6] * a0334 + mat.mat[8] * a0134;
+float b014124 = mat.mat[5] * a1424 - mat.mat[6] * a0424 + mat.mat[9] * a0124;
+float b013124 = mat.mat[5] * a1324 - mat.mat[6] * a0324 + mat.mat[8] * a0124;
+float b014123 = mat.mat[5] * a1423 - mat.mat[6] * a0423 + mat.mat[9] * a0123;
+float b013123 = mat.mat[5] * a1323 - mat.mat[6] * a0323 + mat.mat[8] * a0123;
+float b012134 = mat.mat[5] * a1234 - mat.mat[6] * a0234 + mat.mat[7] * a0134;
+float b012124 = mat.mat[5] * a1224 - mat.mat[6] * a0224 + mat.mat[7] * a0124;
+float b012123 = mat.mat[5] * a1223 - mat.mat[6] * a0223 + mat.mat[7] * a0123;
+
+float det = mat.mat[0] * (mat.mat[6] * b234234 - mat.mat[7] * b134234 + mat.mat[8] * b124234 - mat.mat[9] * b123234)
+	 - mat.mat[1] * (mat.mat[5] * b234234 - mat.mat[7] * b034234 + mat.mat[8] * b024234 - mat.mat[9] * b023234)
+	 + mat.mat[2] * (mat.mat[5] * b134234 - mat.mat[6] * b034234 + mat.mat[8] * b014234 - mat.mat[9] * b013234)
+	 - mat.mat[3] * (mat.mat[5] * b124234 - mat.mat[6] * b024234 + mat.mat[7] * b014234 - mat.mat[9] * b012234)
+	 + mat.mat[4] * (mat.mat[5] * b123234 - mat.mat[6] * b023234 + mat.mat[7] * b013234 - mat.mat[8] * b012234);
+det = 1 / det;
+
+Mat5 inv = Mat5();
+inv.mat[0] = det * (mat.mat[6] * b234234 - mat.mat[7] * b134234 + mat.mat[8] * b124234 - mat.mat[9] * b123234);
+inv.mat[1] = det * -(mat.mat[1] * b234234 - mat.mat[2] * b134234 + mat.mat[3] * b124234 - mat.mat[4] * b123234);
+inv.mat[2] = det * (mat.mat[1] * b234134 - mat.mat[2] * b134134 + mat.mat[3] * b124134 - mat.mat[4] * b123134);
+inv.mat[3] = det * -(mat.mat[1] * b234124 - mat.mat[2] * b134124 + mat.mat[3] * b124124 - mat.mat[4] * b123124);
+inv.mat[4] = det * (mat.mat[1] * b234123 - mat.mat[2] * b134123 + mat.mat[3] * b124123 - mat.mat[4] * b123123);
+inv.mat[5] = det * -(mat.mat[5] * b234234 - mat.mat[7] * b034234 + mat.mat[8] * b024234 - mat.mat[9] * b023234);
+inv.mat[6] = det * (mat.mat[0] * b234234 - mat.mat[2] * b034234 + mat.mat[3] * b024234 - mat.mat[4] * b023234);
+inv.mat[7] = det * -(mat.mat[0] * b234134 - mat.mat[2] * b034134 + mat.mat[3] * b024134 - mat.mat[4] * b023134);
+inv.mat[8] = det * (mat.mat[0] * b234124 - mat.mat[2] * b034124 + mat.mat[3] * b024124 - mat.mat[4] * b023124);
+inv.mat[9] = det * -(mat.mat[0] * b234123 - mat.mat[2] * b034123 + mat.mat[3] * b024123 - mat.mat[4] * b023123);
+inv.mat[10] = det * (mat.mat[5] * b134234 - mat.mat[6] * b034234 + mat.mat[8] * b014234 - mat.mat[9] * b013234);
+inv.mat[11] = det * -(mat.mat[0] * b134234 - mat.mat[1] * b034234 + mat.mat[3] * b014234 - mat.mat[4] * b013234);
+inv.mat[12] = det * (mat.mat[0] * b134134 - mat.mat[1] * b034134 + mat.mat[3] * b014134 - mat.mat[4] * b013134);
+inv.mat[13] = det * -(mat.mat[0] * b134124 - mat.mat[1] * b034124 + mat.mat[3] * b014124 - mat.mat[4] * b013124);
+inv.mat[14] = det * (mat.mat[0] * b134123 - mat.mat[1] * b034123 + mat.mat[3] * b014123 - mat.mat[4] * b013123);
+inv.mat[15] = det * -(mat.mat[5] * b124234 - mat.mat[6] * b024234 + mat.mat[7] * b014234 - mat.mat[9] * b012234);
+inv.mat[16] = det * (mat.mat[0] * b124234 - mat.mat[1] * b024234 + mat.mat[2] * b014234 - mat.mat[4] * b012234);
+inv.mat[17] = det * -(mat.mat[0] * b124134 - mat.mat[1] * b024134 + mat.mat[2] * b014134 - mat.mat[4] * b012134);
+inv.mat[18] = det * (mat.mat[0] * b124124 - mat.mat[1] * b024124 + mat.mat[2] * b014124 - mat.mat[4] * b012124);
+inv.mat[19] = det * -(mat.mat[0] * b124123 - mat.mat[1] * b024123 + mat.mat[2] * b014123 - mat.mat[4] * b012123);
+inv.mat[20] = det * (mat.mat[5] * b123234 - mat.mat[6] * b023234 + mat.mat[7] * b013234 - mat.mat[8] * b012234);
+inv.mat[21] = det * -(mat.mat[0] * b123234 - mat.mat[1] * b023234 + mat.mat[2] * b013234 - mat.mat[3] * b012234);
+inv.mat[22] = det * (mat.mat[0] * b123134 - mat.mat[1] * b023134 + mat.mat[2] * b013134 - mat.mat[3] * b012134);
+inv.mat[23] = det * -(mat.mat[0] * b123124 - mat.mat[1] * b023124 + mat.mat[2] * b013124 - mat.mat[3] * b012124);
+inv.mat[24] = det * (mat.mat[0] * b123123 - mat.mat[1] * b023123 + mat.mat[2] * b013123 - mat.mat[3] * b012123);
+

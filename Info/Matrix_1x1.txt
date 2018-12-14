@@ -1,6 +1,0 @@
-var det = m.m00 ;
-det = 1 / det;
-
-return new Matrix1x1() {
-   m00 = det *   (),
-};

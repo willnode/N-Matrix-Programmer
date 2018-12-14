@@ -1,0 +1,11 @@
+// C++ code for compute invertion 2 x 2 matrix by willnode and ThomasCZ
+float det = mat.mat[0] * mat.mat[3]
+	 - mat.mat[1] * mat.mat[2];
+det = 1 / det;
+
+Mat2 inv = Mat2();
+inv.mat[0] = det * (mat.mat[3]);
+inv.mat[1] = det * -(mat.mat[1]);
+inv.mat[2] = det * -(mat.mat[2]);
+inv.mat[3] = det * (mat.mat[0]);
+

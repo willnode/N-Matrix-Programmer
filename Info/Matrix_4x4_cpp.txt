@@ -1,0 +1,46 @@
+// C++ code for compute invertion 4 x 4 matrix by willnode and ThomasCZ
+
+
+float a2323 = mat.mat[10] * mat.mat[15] - mat.mat[11] * mat.mat[14];
+float a1323 = mat.mat[9] * mat.mat[15] - mat.mat[11] * mat.mat[13];
+float a1223 = mat.mat[9] * mat.mat[14] - mat.mat[10] * mat.mat[13];
+float a0323 = mat.mat[8] * mat.mat[15] - mat.mat[11] * mat.mat[12];
+float a0223 = mat.mat[8] * mat.mat[14] - mat.mat[10] * mat.mat[12];
+float a0123 = mat.mat[8] * mat.mat[13] - mat.mat[9] * mat.mat[12];
+float a2313 = mat.mat[6] * mat.mat[15] - mat.mat[7] * mat.mat[14];
+float a1313 = mat.mat[5] * mat.mat[15] - mat.mat[7] * mat.mat[13];
+float a1213 = mat.mat[5] * mat.mat[14] - mat.mat[6] * mat.mat[13];
+float a2312 = mat.mat[6] * mat.mat[11] - mat.mat[7] * mat.mat[10];
+float a1312 = mat.mat[5] * mat.mat[11] - mat.mat[7] * mat.mat[9];
+float a1212 = mat.mat[5] * mat.mat[10] - mat.mat[6] * mat.mat[9];
+float a0313 = mat.mat[4] * mat.mat[15] - mat.mat[7] * mat.mat[12];
+float a0213 = mat.mat[4] * mat.mat[14] - mat.mat[6] * mat.mat[12];
+float a0312 = mat.mat[4] * mat.mat[11] - mat.mat[7] * mat.mat[8];
+float a0212 = mat.mat[4] * mat.mat[10] - mat.mat[6] * mat.mat[8];
+float a0113 = mat.mat[4] * mat.mat[13] - mat.mat[5] * mat.mat[12];
+float a0112 = mat.mat[4] * mat.mat[9] - mat.mat[5] * mat.mat[8];
+
+float det = mat.mat[0] * (mat.mat[5] * a2323 - mat.mat[6] * a1323 + mat.mat[7] * a1223)
+	 - mat.mat[1] * (mat.mat[4] * a2323 - mat.mat[6] * a0323 + mat.mat[7] * a0223)
+	 + mat.mat[2] * (mat.mat[4] * a1323 - mat.mat[5] * a0323 + mat.mat[7] * a0123)
+	 - mat.mat[3] * (mat.mat[4] * a1223 - mat.mat[5] * a0223 + mat.mat[6] * a0123);
+det = 1 / det;
+
+Mat4 inv = Mat4();
+inv.mat[0] = det * (mat.mat[5] * a2323 - mat.mat[6] * a1323 + mat.mat[7] * a1223);
+inv.mat[1] = det * -(mat.mat[1] * a2323 - mat.mat[2] * a1323 + mat.mat[3] * a1223);
+inv.mat[2] = det * (mat.mat[1] * a2313 - mat.mat[2] * a1313 + mat.mat[3] * a1213);
+inv.mat[3] = det * -(mat.mat[1] * a2312 - mat.mat[2] * a1312 + mat.mat[3] * a1212);
+inv.mat[4] = det * -(mat.mat[4] * a2323 - mat.mat[6] * a0323 + mat.mat[7] * a0223);
+inv.mat[5] = det * (mat.mat[0] * a2323 - mat.mat[2] * a0323 + mat.mat[3] * a0223);
+inv.mat[6] = det * -(mat.mat[0] * a2313 - mat.mat[2] * a0313 + mat.mat[3] * a0213);
+inv.mat[7] = det * (mat.mat[0] * a2312 - mat.mat[2] * a0312 + mat.mat[3] * a0212);
+inv.mat[8] = det * (mat.mat[4] * a1323 - mat.mat[5] * a0323 + mat.mat[7] * a0123);
+inv.mat[9] = det * -(mat.mat[0] * a1323 - mat.mat[1] * a0323 + mat.mat[3] * a0123);
+inv.mat[10] = det * (mat.mat[0] * a1313 - mat.mat[1] * a0313 + mat.mat[3] * a0113);
+inv.mat[11] = det * -(mat.mat[0] * a1312 - mat.mat[1] * a0312 + mat.mat[3] * a0112);
+inv.mat[12] = det * -(mat.mat[4] * a1223 - mat.mat[5] * a0223 + mat.mat[6] * a0123);
+inv.mat[13] = det * (mat.mat[0] * a1223 - mat.mat[1] * a0223 + mat.mat[2] * a0123);
+inv.mat[14] = det * -(mat.mat[0] * a1213 - mat.mat[1] * a0213 + mat.mat[2] * a0113);
+inv.mat[15] = det * (mat.mat[0] * a1212 - mat.mat[1] * a0212 + mat.mat[2] * a0112);
+
