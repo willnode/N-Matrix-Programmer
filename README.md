@@ -1,6 +1,8 @@
 # N-Matrix-Programmer
 A program to create a program that calculates inverse and determinant of N by N matrix.
 
+> UPDATE (2022): I build a collection of libraries that does this for you: https://github.com/willnode/matrix-inversion
+
 ![Screenshot](Info/Screenshot.png)
 
 ## Background
